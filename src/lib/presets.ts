@@ -9,8 +9,7 @@ import { DesignPreset, StylePreset } from "@/types";
  *
  * SHADING: Cel-shaded flat color zones with hard shadow edges (no gradients).
  * 2-shadow approach: base color + shadow 1 (turned away from light) +
- * shadow 2 (deepest recesses). Strategic solid black "spotted" areas for
- * maximum drama (Mignola technique).
+ * shadow 2 (deepest recesses). Strategic solid black shadow areas for drama.
  *
  * SCREEN PRINT CONSTRAINTS: 1pt minimum line weight (2pt+ safe). Flat spot
  * colors only — no gradients (halftone dot gain ruins them on fabric).
@@ -18,10 +17,8 @@ import { DesignPreset, StylePreset } from "@/types";
  * between color screens. Limited palette (1-6 colors). Cross-hatching and
  * stippling print as solid line art — superior to halftone shading.
  *
- * STREETWEAR CHARACTER DESIGN: Exaggerated proportions (big head, small body).
- * Attitude communicated through pose and expression. Silhouette test —
- * must be recognizable as a solid black shape. Limited color palette.
- * Concept over decoration — the graphic must MEAN something.
+ * The prefixes describe MEDIUM and TECHNIQUE only — not style or genre.
+ * The user's prompt supplies the creative direction, subject, and mood.
  */
 
 export const DESIGN_PRESETS: DesignPreset[] = [
@@ -29,10 +26,10 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "Graphic Design",
     category: "graphic",
     description:
-      "Bold streetwear graphics — character designs, mascots, creative concepts",
+      "Bold graphics — characters, mascots, icons, creative concepts",
     icon: "🎨",
     promptPrefix:
-      "hand-inked streetwear character illustration for screen-printed t-shirt, creative and expressive with exaggerated proportions and attitude,",
+      "hand-inked illustration for screen-printed t-shirt, creative and expressive with strong personality,",
     promptSuffix:
       ", varied line weight with thick bold outer contours and thin interior detail lines, cel-shaded flat color zones with hard shadow edges, strategic solid black shadow areas for drama, limited color palette, no gradients, confident ink strokes with thick-to-thin taper, isolated on transparent background, high contrast, print-ready",
     recommendedStyle: "comic-book",
@@ -45,7 +42,7 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Heavyweight custom lettering — bold type, ink textures, statement wordmarks",
     icon: "✏️",
     promptPrefix:
-      "hand-lettered custom typography for screen-printed streetwear,",
+      "hand-lettered custom typography for screen-printed t-shirt,",
     promptSuffix:
       ", heavyweight bold letterforms with varied stroke weight, ink texture and rough edges showing the hand of the artist, flat spot color fills with no gradients, strong black outlines, isolated on transparent background, high contrast, print-ready",
     recommendedStyle: "line-art",
@@ -158,21 +155,21 @@ export const STYLE_OPTIONS: {
 
 export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
-    category: "Streetwear Characters",
+    category: "Characters",
     prompts: [
-      "menacing gorilla boss in a fur coat and gold chains, cigar smoke curling, heavy-lidded glare, exaggerated broad shoulders and tiny legs",
-      "ice cream cone headed hustler in a tracksuit and fresh kicks, gold grill smile, melting under pressure but keeping cool, drips of color",
-      "tiger yakuza lord in an open kimono showing irezumi tattoos, smoke trailing from nostrils, coiled and dangerous, Japanese ink style",
-      "battle-scarred pitbull in a spiked collar and flight jacket, one ear torn, war medals pinned to chest, thousand-yard stare",
+      "menacing gorilla boss in a fur coat and gold chains, cigar smoke curling, heavy-lidded glare, exaggerated broad shoulders",
+      "ice cream cone headed character in a tracksuit, gold grill smile, melting under pressure but keeping cool, drips of color",
+      "ancient samurai ghost in cracked armor, ethereal wisps of smoke, hollow glowing eyes, ink wash style",
+      "happy mushroom wizard with a long beard and a crooked staff, forest creatures gathering around, whimsical storybook feel",
     ],
   },
   {
-    category: "Premium Graphics",
+    category: "Illustrations",
     prompts: [
-      "sacred heart wrapped in barbed wire and thorns, flames erupting from the top, roses growing from the wounds, dark religious icon style",
+      "sacred heart wrapped in barbed wire and thorns, flames erupting from the top, roses growing from the wounds, dark religious icon",
       "human skull splitting open to reveal a cosmos of stars and nebulae inside, jaw hanging loose, ink splatter around edges",
       "koi fish transforming into a dragon mid-leap through crashing waves, scales shifting from fish to serpent, Japanese woodblock energy",
-      "bald eagle clutching a rattlesnake in its talons, wings spread wide, feathers rendered with cross-hatched ink detail, Americana tattoo flash",
+      "vintage botanical illustration of a venus flytrap devouring a tiny astronaut, scientific diagram labels, engraving cross-hatch detail",
     ],
   },
   {
@@ -180,16 +177,16 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
     prompts: [
       "block letters NO DAYS OFF built from cracked concrete slabs, rebar exposed, dust particles floating, heavyweight industrial feel",
       "gothic blackletter LIMITLESS with thorny vines growing through and cracking the letterforms apart, ink drip texture",
-      "stacked ultra-compressed TRUST THE PROCESS with horizontal scan-line distortion slicing through, glitch aesthetic",
+      "retro chrome script GOLDEN ERA with sunset gradient fill inside the letters, 70s van art style",
       "dripping spray paint text STAY HUNGRY on a raw brick wall, paint runs and overspray halo, street bombing style",
     ],
   },
   {
-    category: "Patterns & Camo",
+    category: "Patterns",
     prompts: [
-      "custom camouflage pattern with ape face silhouettes hidden in the organic shapes, 4-color limited palette",
+      "custom camouflage pattern with hidden animal face silhouettes in the organic shapes, 4-color limited palette",
       "geometric interlocking hexagons and triangles forming a skull when viewed at distance, monochrome with bold outlines",
-      "paisley bandana pattern remixed with skulls replacing the traditional teardrop shapes, two-color spot print",
+      "art nouveau floral repeat pattern with swirling vines and poppies, elegant flowing lines, two-color spot print",
       "repeating lightning bolt pattern with negative-space arrows between bolts, two-tone high contrast",
     ],
   },
