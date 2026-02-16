@@ -4,110 +4,176 @@ export const DESIGN_PRESETS: DesignPreset[] = [
   {
     name: "Graphic Design",
     category: "graphic",
-    description: "Bold graphics, illustrations, and artwork for statement tees",
+    description:
+      "Premium streetwear graphics — bold, clean, high-contrast designs for statement pieces",
     icon: "🎨",
-    promptPrefix: "T-shirt graphic design,",
+    promptPrefix:
+      "Professional high-end streetwear t-shirt graphic, premium apparel design,",
     promptSuffix:
-      ", isolated on solid white background, clean edges, high contrast, print-ready, vector style, no text unless specified",
-    recommendedStyle: "digital-art",
+      ", isolated on solid black background, clean sharp edges, high contrast, screen-print ready, bold graphic identity, luxury streetwear aesthetic, detailed and refined, no cartoon style, no childish elements, fashion-forward, editorial quality",
+    recommendedStyle: "photographic",
     recommendedModel: "ultra",
   },
   {
     name: "Custom Typography",
     category: "typography",
-    description: "Custom lettering, wordmarks, and typographic designs",
+    description:
+      "Bold custom lettering and wordmarks — heavyweight type, distressed textures, statement fonts",
     icon: "✏️",
-    promptPrefix: "Typography t-shirt design, custom lettering,",
+    promptPrefix:
+      "Premium streetwear typography design, bold custom lettering, high-end fashion apparel,",
     promptSuffix:
-      ", isolated on solid white background, bold readable text, clean crisp letterforms, high contrast, print-ready",
-    recommendedStyle: "digital-art",
-    recommendedModel: "sd3.5-large",
+      ", isolated on solid black background, heavyweight bold letterforms, strong visual impact, professional typographic design, clean execution, screen-print aesthetic, luxury brand quality, editorial fashion, no cheap clip-art, no thin fonts",
+    recommendedStyle: "photographic",
+    recommendedModel: "ultra",
   },
   {
     name: "Patches",
     category: "patch",
-    description: "Embroidered-look patch designs with borders and stitching",
+    description:
+      "Premium embroidered patch designs — chenille, chain-stitch, military-grade detail",
     icon: "🛡️",
-    promptPrefix: "Embroidered patch design,",
+    promptPrefix:
+      "Luxury embroidered patch design, premium chenille patch, high-end streetwear,",
     promptSuffix:
-      ", stitched border, embroidery texture, isolated on white background, detailed threadwork, merit badge style, clean edges",
-    recommendedStyle: "3d-model",
+      ", dense embroidery texture, satin stitch detail, merrowed border edge, isolated on black background, premium quality threadwork, fashion brand patch, detailed craftsmanship, no cartoon style",
+    recommendedStyle: "photographic",
     recommendedModel: "ultra",
   },
   {
     name: "PVC / Rubber",
     category: "pvc",
-    description: "3D rubber/PVC style designs with tactile depth",
+    description:
+      "Molded PVC and rubber label designs — tactile, dimensional, streetwear hardware",
     icon: "🔲",
-    promptPrefix: "3D PVC rubber patch design,",
+    promptPrefix:
+      "Premium 3D molded PVC rubber label design, luxury streetwear hardware,",
     promptSuffix:
-      ", molded plastic look, raised edges, tactile depth, solid colors, isolated on white background, clean industrial design",
-    recommendedStyle: "3d-model",
+      ", raised tactile surface, matte and gloss finish contrast, precise industrial molding, isolated on black background, premium brand label, clean geometric form, photorealistic render, no cartoon style",
+    recommendedStyle: "photographic",
     recommendedModel: "ultra",
   },
   {
     name: "All-Over Print",
     category: "all-over",
-    description: "Seamless patterns and full-coverage designs",
+    description:
+      "Full-coverage patterns — bold camo, abstract motifs, premium all-over prints",
     icon: "🔁",
-    promptPrefix: "Seamless repeating pattern for all-over print t-shirt,",
+    promptPrefix:
+      "Premium all-over print pattern for luxury streetwear, seamless repeating design,",
     promptSuffix:
-      ", tileable, seamless edges, consistent density, vibrant colors, print-ready pattern",
-    recommendedStyle: "digital-art",
-    recommendedModel: "core",
+      ", tileable seamless pattern, consistent density, sophisticated color palette, high-end fashion textile print, bold and refined, editorial quality, premium brand aesthetic, no childish elements",
+    recommendedStyle: "photographic",
+    recommendedModel: "ultra",
   },
 ];
 
-export const STYLE_OPTIONS: { value: StylePreset; label: string; description: string }[] = [
-  { value: "digital-art", label: "Digital Art", description: "Vibrant digital illustration" },
-  { value: "comic-book", label: "Comic Book", description: "Bold outlines, flat colors" },
-  { value: "line-art", label: "Line Art", description: "Clean lines, screen-print ready" },
-  { value: "anime", label: "Anime", description: "Japanese animation style" },
-  { value: "3d-model", label: "3D Render", description: "Dimensional rendered look" },
-  { value: "low-poly", label: "Low Poly", description: "Geometric faceted style" },
-  { value: "pixel-art", label: "Pixel Art", description: "Retro pixel aesthetic" },
-  { value: "neon-punk", label: "Neon Punk", description: "Glowing neon cyberpunk" },
-  { value: "origami", label: "Origami", description: "Paper fold aesthetic" },
-  { value: "fantasy-art", label: "Fantasy Art", description: "Epic fantasy illustration" },
-  { value: "photographic", label: "Photographic", description: "Photo-realistic render" },
-  { value: "cinematic", label: "Cinematic", description: "Movie poster dramatic" },
+export const STYLE_OPTIONS: {
+  value: StylePreset;
+  label: string;
+  description: string;
+}[] = [
+  {
+    value: "photographic",
+    label: "Photo-Real",
+    description: "Photorealistic, editorial quality",
+  },
+  {
+    value: "cinematic",
+    label: "Cinematic",
+    description: "Dramatic, film-quality lighting",
+  },
+  {
+    value: "digital-art",
+    label: "Digital Art",
+    description: "Clean digital illustration",
+  },
+  {
+    value: "line-art",
+    label: "Line Art",
+    description: "Bold lines, screen-print ready",
+  },
+  {
+    value: "3d-model",
+    label: "3D Render",
+    description: "Dimensional, premium product feel",
+  },
+  {
+    value: "neon-punk",
+    label: "Neon Punk",
+    description: "Glowing neon, cyber-streetwear",
+  },
+  {
+    value: "comic-book",
+    label: "Comic Book",
+    description: "Bold outlines, flat color pop",
+  },
+  {
+    value: "anime",
+    label: "Anime",
+    description: "Japanese animation style",
+  },
+  {
+    value: "low-poly",
+    label: "Low Poly",
+    description: "Geometric faceted style",
+  },
+  {
+    value: "fantasy-art",
+    label: "Fantasy Art",
+    description: "Epic detailed illustration",
+  },
+  {
+    value: "origami",
+    label: "Origami",
+    description: "Paper fold aesthetic",
+  },
+  {
+    value: "pixel-art",
+    label: "Pixel Art",
+    description: "Retro pixel aesthetic",
+  },
 ];
 
 export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
-    category: "Streetwear",
+    category: "Streetwear Icons",
     prompts: [
-      "Skull with roses and dripping paint",
-      "Graffiti-style wild animal portrait",
-      "Japanese dragon with cherry blossoms",
-      "Retro boombox with musical notes explosion",
+      "Fierce ape head portrait with sharp teeth, bold graphic, BAPE-inspired",
+      "Roaring tiger face with gold chains, luxury streetwear graphic",
+      "Abstract samurai mask with drip effect, Japanese streetwear",
+      "Oversized bulldog mascot with spiked collar, premium brand identity",
     ],
   },
   {
-    category: "Minimalist",
+    category: "Premium Graphics",
     prompts: [
-      "Single continuous line drawing of a mountain",
-      "Geometric wolf head made of triangles",
-      "Simple sun and wave icon",
-      "Abstract face in one stroke",
+      "Anatomical heart wrapped in barbed wire, dark luxury aesthetic",
+      "Chrome melting skull with liquid metal drip, high-end editorial",
+      "Koi fish in circular composition with waves, Japanese tattoo style",
+      "Eagle clutching a banner, vintage Americana meets streetwear",
     ],
   },
   {
-    category: "Vintage",
+    category: "Bold Type",
     prompts: [
-      "Retro sunset with palm trees 80s style",
-      "Classic motorcycle with flames",
-      "Vintage camping badge with pine trees",
-      "Old school tattoo style eagle",
+      "Heavyweight block letters NO DAYS OFF with distressed texture",
+      "Gothic blackletter text LIMITLESS with chrome effect",
+      "Stacked compressed type TRUST THE PROCESS, brutalist design",
+      "Dripping paint text STAY HUNGRY with urban decay texture",
     ],
   },
   {
-    category: "Typography",
+    category: "Patterns & Camo",
     prompts: [
-      "Bold block letters saying DREAM BIG",
-      "Grunge distressed text NO FEAR",
-      "Elegant script lettering STAY WILD",
-      "Retro 3D chrome text UNSTOPPABLE",
+      "Custom camo pattern with hidden faces and eyes, BAPE-inspired",
+      "Abstract geometric pattern with interlocking shapes, monochrome",
+      "Paisley bandana pattern reimagined with skulls and roses",
+      "Lightning bolt repeat pattern, bold two-tone colorway",
     ],
   },
 ];
+
+/** Default negative prompt to prevent low-quality, cartoonish output */
+export const DEFAULT_NEGATIVE_PROMPT =
+  "cartoon, cartoonish, childish, clipart, cheap, blurry, low quality, watermark, text overlay, stock photo, amateur, poorly drawn, distorted, deformed, ugly, jpeg artifacts, oversaturated, toy-like, sticker, emoji, cute, kawaii";

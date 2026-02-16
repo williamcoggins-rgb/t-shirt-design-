@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { DesignCategory, GenerationModel, StylePreset, AspectRatio } from "@/types";
-import { DESIGN_PRESETS, STYLE_OPTIONS, QUICK_PROMPTS } from "@/lib/presets";
+import { DESIGN_PRESETS, STYLE_OPTIONS, QUICK_PROMPTS, DEFAULT_NEGATIVE_PROMPT } from "@/lib/presets";
 
 interface PromptBarProps {
   onGenerate: (params: {
@@ -29,7 +29,7 @@ export default function PromptBar({
     selectedCategory === "all" ? "graphic" : selectedCategory
   );
   const [model, setModel] = useState<GenerationModel>("ultra");
-  const [style, setStyle] = useState<StylePreset>("digital-art");
+  const [style, setStyle] = useState<StylePreset>("photographic");
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("1:1");
   const [negativePrompt, setNegativePrompt] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -53,13 +53,18 @@ export default function PromptBar({
       ? `${preset.promptPrefix} ${prompt.trim()} ${preset.promptSuffix}`
       : prompt.trim();
 
+    // Merge user negative prompt with default anti-cartoon negative prompt
+    const finalNegative = negativePrompt
+      ? `${negativePrompt}, ${DEFAULT_NEGATIVE_PROMPT}`
+      : DEFAULT_NEGATIVE_PROMPT;
+
     onGenerate({
       prompt: fullPrompt,
       category,
       model,
       style: model === "core" ? style : undefined,
       aspectRatio,
-      negativePrompt: negativePrompt || undefined,
+      negativePrompt: finalNegative,
     });
   };
 
