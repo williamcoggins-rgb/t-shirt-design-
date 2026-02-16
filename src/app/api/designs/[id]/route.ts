@@ -1,58 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { put, list, del } from "@vercel/blob";
 
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !key) return null;
-  return createClient(url, key);
+function isBlobConfigured(): boolean {
+  return !!process.env.BLOB_READ_WRITE_TOKEN;
 }
 
-// GET /api/designs/[id] - get design image
+// GET /api/designs/[id] - get design image as base64
 export async function GET(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = getSupabase();
-  if (!supabase) {
+  if (!isBlobConfigured()) {
     return NextResponse.json(
       { error: "Cloud storage not configured" },
       { status: 503 }
     );
   }
 
-  const { data, error } = await supabase.storage
-    .from("design-images")
-    .download(`${params.id}.png`);
+  try {
+    // Find the image blob
+    const { blobs } = await list({
+      prefix: `designs/images/${params.id}`,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
 
-  if (error || !data) {
-    return NextResponse.json(
-      { error: error?.message || "Image not found" },
-      { status: 404 }
-    );
+    if (blobs.length === 0) {
+      return NextResponse.json({ error: "Image not found" }, { status: 404 });
+    }
+
+    // Download and convert to base64
+    const res = await fetch(blobs[0].url);
+    const arrayBuffer = await res.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    let binary = "";
+    for (let i = 0; i < uint8Array.length; i++) {
+      binary += String.fromCharCode(uint8Array[i]);
+    }
+    const base64 = btoa(binary);
+
+    return NextResponse.json({ imageBase64: base64 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to get image";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  const arrayBuffer = await data.arrayBuffer();
-  const uint8Array = new Uint8Array(arrayBuffer);
-  let binary = "";
-  for (let i = 0; i < uint8Array.length; i++) {
-    binary += String.fromCharCode(uint8Array[i]);
-  }
-  const base64 = btoa(binary);
-
-  return NextResponse.json({ imageBase64: base64 });
 }
 
-// PATCH /api/designs/[id] - update design
+// PATCH /api/designs/[id] - update design metadata and/or image
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = getSupabase();
-  if (!supabase) {
+  if (!isBlobConfigured()) {
     return NextResponse.json(
       { error: "Cloud storage not configured" },
       { status: 503 }
@@ -62,58 +60,73 @@ export async function PATCH(
   const body = await req.json();
   const { updates, newImageBase64 } = body;
 
-  // Update image if provided
-  if (newImageBase64) {
-    const clean = newImageBase64.includes(",")
-      ? newImageBase64.split(",")[1]
-      : newImageBase64;
-    const binaryString = atob(clean);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+  try {
+    // Update image if provided
+    if (newImageBase64) {
+      const clean = newImageBase64.includes(",")
+        ? newImageBase64.split(",")[1]
+        : newImageBase64;
+      const imageBytes = Uint8Array.from(atob(clean), (c) => c.charCodeAt(0));
+      const imageBlob = new Blob([imageBytes], { type: "image/png" });
+
+      // Delete old image blob first
+      const { blobs: oldImages } = await list({
+        prefix: `designs/images/${params.id}`,
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      });
+      if (oldImages.length > 0) {
+        await del(
+          oldImages.map((b) => b.url),
+          { token: process.env.BLOB_READ_WRITE_TOKEN }
+        );
+      }
+
+      await put(`designs/images/${params.id}.png`, imageBlob, {
+        access: "public",
+        contentType: "image/png",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      });
     }
 
-    const { error: uploadError } = await supabase.storage
-      .from("design-images")
-      .upload(`${params.id}.png`, bytes, {
-        contentType: "image/png",
-        upsert: true,
+    // Update metadata if there are updates
+    if (updates && Object.keys(updates).length > 0) {
+      // Fetch existing metadata
+      const { blobs: metaBlobs } = await list({
+        prefix: `designs/meta/${params.id}`,
+        token: process.env.BLOB_READ_WRITE_TOKEN,
       });
 
-    if (uploadError) {
-      return NextResponse.json(
-        { error: `Image update failed: ${uploadError.message}` },
-        { status: 500 }
+      let existing: Record<string, unknown> = {};
+      if (metaBlobs.length > 0) {
+        const res = await fetch(metaBlobs[0].url);
+        existing = await res.json();
+
+        // Delete old metadata blob
+        await del(
+          metaBlobs.map((b) => b.url),
+          { token: process.env.BLOB_READ_WRITE_TOKEN }
+        );
+      }
+
+      // Merge updates
+      const merged = { ...existing, ...updates };
+
+      await put(
+        `designs/meta/${params.id}.json`,
+        JSON.stringify(merged),
+        {
+          access: "public",
+          contentType: "application/json",
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        }
       );
     }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Update failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  // Build update object
-  const dbUpdates: Record<string, unknown> = {};
-  if (updates?.prompt !== undefined) dbUpdates.prompt = updates.prompt;
-  if (updates?.category !== undefined) dbUpdates.category = updates.category;
-  if (updates?.style !== undefined) dbUpdates.style = updates.style;
-  if (updates?.model !== undefined) dbUpdates.model = updates.model;
-  if (updates?.hasTransparentBg !== undefined)
-    dbUpdates.has_transparent_bg = updates.hasTransparentBg;
-  if (updates?.isUpscaled !== undefined)
-    dbUpdates.is_upscaled = updates.isUpscaled;
-
-  if (Object.keys(dbUpdates).length > 0) {
-    const { error } = await supabase
-      .from("designs")
-      .update(dbUpdates)
-      .eq("id", params.id);
-
-    if (error) {
-      return NextResponse.json(
-        { error: `Update failed: ${error.message}` },
-        { status: 500 }
-      );
-    }
-  }
-
-  return NextResponse.json({ success: true });
 }
 
 // DELETE /api/designs/[id] - delete design
@@ -121,29 +134,28 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = getSupabase();
-  if (!supabase) {
+  if (!isBlobConfigured()) {
     return NextResponse.json(
       { error: "Cloud storage not configured" },
       { status: 503 }
     );
   }
 
-  // Delete image from storage
-  await supabase.storage.from("design-images").remove([`${params.id}.png`]);
+  try {
+    // Find and delete both image and metadata blobs
+    const [{ blobs: images }, { blobs: meta }] = await Promise.all([
+      list({ prefix: `designs/images/${params.id}`, token: process.env.BLOB_READ_WRITE_TOKEN }),
+      list({ prefix: `designs/meta/${params.id}`, token: process.env.BLOB_READ_WRITE_TOKEN }),
+    ]);
 
-  // Delete metadata
-  const { error } = await supabase
-    .from("designs")
-    .delete()
-    .eq("id", params.id);
+    const allUrls = [...images, ...meta].map((b) => b.url);
+    if (allUrls.length > 0) {
+      await del(allUrls, { token: process.env.BLOB_READ_WRITE_TOKEN });
+    }
 
-  if (error) {
-    return NextResponse.json(
-      { error: `Delete failed: ${error.message}` },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Delete failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true });
 }
