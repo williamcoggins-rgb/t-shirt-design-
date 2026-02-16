@@ -5,11 +5,12 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "Graphic Design",
     category: "graphic",
     description:
-      "Bold streetwear graphics — flat colors, strong outlines, screen-print ready",
+      "Bold streetwear graphics — character designs, mascots, creative concepts",
     icon: "🎨",
-    promptPrefix: "sticker design, vector graphic for t-shirt,",
+    promptPrefix:
+      "streetwear character illustration for a premium t-shirt brand, stylized and expressive with attitude,",
     promptSuffix:
-      ", flat colors, bold black outlines, no background, isolated subject, 3 color palette, screen print style",
+      ", bold ink lines, flat color fills, strong personality, transparent background, high contrast, screen print aesthetic",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -17,11 +18,12 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "Custom Typography",
     category: "typography",
     description:
-      "Heavyweight custom lettering — bold type, ink textures, screen-print aesthetic",
+      "Heavyweight custom lettering — bold type, ink textures, statement wordmarks",
     icon: "✏️",
-    promptPrefix: "sticker design, vector typography for t-shirt,",
+    promptPrefix:
+      "custom hand-lettered typography for streetwear brand,",
     promptSuffix:
-      ", bold lettering, flat black ink, no background, isolated text, screen print style, hand-drawn quality",
+      ", bold heavyweight letterforms, ink texture, transparent background, high contrast, screen print aesthetic",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
@@ -31,9 +33,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Embroidered patch designs — chenille, chain-stitch, dense threadwork",
     icon: "🛡️",
-    promptPrefix: "embroidered patch design,",
+    promptPrefix: "embroidered chenille patch design,",
     promptSuffix:
-      ", chenille embroidery texture, merrowed border, no background, isolated patch, bold outlines, limited colors",
+      ", dense thread texture, merrowed border, transparent background, bold shapes, limited colors",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -43,9 +45,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Molded PVC rubber labels — tactile, dimensional, bold shapes",
     icon: "🔲",
-    promptPrefix: "PVC rubber label design,",
+    promptPrefix: "molded PVC rubber label design,",
     promptSuffix:
-      ", molded rubber, raised surface, no background, isolated label, bold simple shapes, limited color",
+      ", raised tactile surface, matte and gloss contrast, transparent background, bold simple shapes, limited color",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -55,9 +57,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Full-coverage patterns — camo, abstract motifs, flat graphic repeats",
     icon: "🔁",
-    promptPrefix: "seamless repeating pattern,",
+    promptPrefix: "seamless repeating textile pattern,",
     promptSuffix:
-      ", tileable, flat colors, bold outlines, 4 color palette, screen print style",
+      ", tileable, flat colors, bold outlines, limited color palette, screen print style",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
@@ -132,30 +134,30 @@ export const STYLE_OPTIONS: {
 
 export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
-    category: "Streetwear Icons",
+    category: "Streetwear Characters",
     prompts: [
-      "fierce ape head with sharp teeth, BAPE style mascot",
-      "roaring tiger face, anime-inspired, bold ink",
-      "samurai mask with drip effect, Japanese ink brush",
-      "snarling bulldog mascot, pop art color",
+      "angry ape character with gold chain and snapback, graffiti attitude",
+      "ice cream cone character with sunglasses and gold teeth, dripping swag",
+      "tiger in a hoodie smoking, Japanese street style",
+      "bulldog wearing a bomber jacket, tough streetwear mascot",
     ],
   },
   {
     category: "Premium Graphics",
     prompts: [
-      "anatomical heart wrapped in barbed wire, red and black only",
-      "skull with melting drip, monochrome ink",
-      "koi fish circular composition, Japanese woodblock style",
-      "eagle with spread wings, vintage tattoo flash",
+      "flaming heart with barbed wire and roses, dark romantic",
+      "melting chrome skull with dripping liquid metal",
+      "koi fish and dragon intertwined, Japanese tattoo flash",
+      "eagle clutching a snake, traditional Americana with edge",
     ],
   },
   {
     category: "Bold Type",
     prompts: [
-      "block letters NO DAYS OFF, distressed ink texture",
-      "gothic blackletter LIMITLESS, heavy black ink",
-      "stacked compressed TRUST THE PROCESS, brutalist weight",
-      "brush lettering STAY HUNGRY, dripping ink",
+      "block letters NO DAYS OFF with cracked concrete texture",
+      "gothic blackletter LIMITLESS with thorns and vines",
+      "stacked compressed TRUST THE PROCESS with glitch distortion",
+      "dripping spray paint text STAY HUNGRY, urban wall style",
     ],
   },
   {
@@ -163,12 +165,12 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
     prompts: [
       "custom camo pattern with hidden ape faces, BAPE-inspired",
       "geometric interlocking shapes, monochrome, bold outlines",
-      "paisley bandana pattern with skulls, flat fills",
-      "lightning bolt repeat, two-tone flat color",
+      "paisley bandana pattern remixed with skulls and crossbones",
+      "lightning bolt repeat pattern, two-tone colorway",
     ],
   },
 ];
 
-/** Focused negative prompt — block the specific failures we see */
+/** Block specific failure modes — keep it tight */
 export const DEFAULT_NEGATIVE_PROMPT =
-  "photorealistic, photograph, 3d render, gradient, shadow, shading, blurry, low quality, watermark, colored background, detailed background, scenery";
+  "photorealistic, photograph, 3d render, gradient, blurry, low quality, watermark, colored background, detailed background, scenery, sticker, sticker border, white border";
