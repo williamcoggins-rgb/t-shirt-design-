@@ -1,7 +1,19 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { DesignCategory, GeneratedDesign, GenerationModel, StylePreset, AspectRatio } from "@/types";
+import {
+  DesignCategory,
+  GeneratedDesign,
+  GenerationModel,
+  StylePreset,
+  AspectRatio,
+} from "@/types";
+import {
+  saveDesignToDB,
+  getAllDesigns,
+  getDesignImage,
+  updateDesignInDB,
+} from "@/lib/db";
 import Sidebar from "@/components/Sidebar";
 import PromptBar from "@/components/PromptBar";
 import DesignCard from "@/components/DesignCard";
@@ -11,29 +23,31 @@ import EmptyState from "@/components/EmptyState";
 
 export default function Home() {
   const [activeView, setActiveView] = useState<"create" | "gallery">("create");
-  const [activeCategory, setActiveCategory] = useState<DesignCategory | "all">("all");
+  const [activeCategory, setActiveCategory] = useState<DesignCategory | "all">(
+    "all"
+  );
   const [designs, setDesigns] = useState<GeneratedDesign[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [selectedDesign, setSelectedDesign] = useState<GeneratedDesign | null>(null);
-  const [currentImageBase64, setCurrentImageBase64] = useState<string | null>(null);
+  const [selectedDesign, setSelectedDesign] = useState<GeneratedDesign | null>(
+    null
+  );
+  const [selectedImageBase64, setSelectedImageBase64] = useState<string | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Load designs on mount
+  // Load designs from IndexedDB on mount
   useEffect(() => {
-    loadDesigns();
+    getAllDesigns()
+      .then(setDesigns)
+      .catch(() => {});
   }, []);
 
-  const loadDesigns = async () => {
-    try {
-      const res = await fetch("/api/designs");
-      if (res.ok) {
-        const data = await res.json();
-        setDesigns(data.designs || []);
-      }
-    } catch {
-      // Ignore load errors on initial load
-    }
+  const openDesign = async (design: GeneratedDesign) => {
+    setSelectedDesign(design);
+    const img = await getDesignImage(design.id);
+    setSelectedImageBase64(img);
   };
 
   const handleGenerate = useCallback(
@@ -62,11 +76,28 @@ export default function Home() {
           throw new Error(data.error || "Generation failed");
         }
 
-        setDesigns((prev) => [data.design, ...prev]);
-        setCurrentImageBase64(data.imageBase64);
-        setSelectedDesign(data.design);
+        const id = `design-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const design: GeneratedDesign = {
+          id,
+          prompt: params.prompt,
+          category: params.category,
+          style: params.style,
+          model: params.model,
+          imageUrl: `data:image/png;base64,${data.imageBase64}`,
+          thumbnailUrl: `data:image/png;base64,${data.imageBase64}`,
+          createdAt: new Date().toISOString(),
+          seed: data.seed,
+          hasTransparentBg: false,
+          isUpscaled: false,
+        };
+
+        await saveDesignToDB(design, data.imageBase64);
+        setDesigns((prev) => [design, ...prev]);
+        setSelectedDesign(design);
+        setSelectedImageBase64(data.imageBase64);
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "Something went wrong";
+        const message =
+          err instanceof Error ? err.message : "Something went wrong";
         setError(message);
       } finally {
         setIsGenerating(false);
@@ -75,25 +106,39 @@ export default function Home() {
     []
   );
 
-  const handleRemoveBackground = async (designId: string, imageBase64: string) => {
+  const handleRemoveBackground = async (
+    designId: string,
+    imageBase64: string
+  ) => {
     try {
       const res = await fetch("/api/remove-background", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ designId, imageBase64 }),
+        body: JSON.stringify({ imageBase64 }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      // Update designs list
-      setDesigns((prev) =>
-        prev.map((d) => (d.id === designId ? data.design : d))
+      const newUrl = `data:image/png;base64,${data.imageBase64}`;
+      const updated = await updateDesignInDB(
+        designId,
+        {
+          hasTransparentBg: true,
+          imageUrl: newUrl,
+          thumbnailUrl: newUrl,
+        },
+        data.imageBase64
       );
-      setSelectedDesign(data.design);
-      setCurrentImageBase64(data.imageBase64);
+
+      if (updated) {
+        setDesigns((prev) => prev.map((d) => (d.id === designId ? updated : d)));
+        setSelectedDesign(updated);
+        setSelectedImageBase64(data.imageBase64);
+      }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to remove background";
+      const message =
+        err instanceof Error ? err.message : "Failed to remove background";
       setError(message);
     }
   };
@@ -103,19 +148,31 @@ export default function Home() {
       const res = await fetch("/api/upscale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ designId, imageBase64 }),
+        body: JSON.stringify({ imageBase64 }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      setDesigns((prev) =>
-        prev.map((d) => (d.id === designId ? data.design : d))
+      const newUrl = `data:image/png;base64,${data.imageBase64}`;
+      const updated = await updateDesignInDB(
+        designId,
+        {
+          isUpscaled: true,
+          imageUrl: newUrl,
+          thumbnailUrl: newUrl,
+        },
+        data.imageBase64
       );
-      setSelectedDesign(data.design);
-      setCurrentImageBase64(data.imageBase64);
+
+      if (updated) {
+        setDesigns((prev) => prev.map((d) => (d.id === designId ? updated : d)));
+        setSelectedDesign(updated);
+        setSelectedImageBase64(data.imageBase64);
+      }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to upscale";
+      const message =
+        err instanceof Error ? err.message : "Failed to upscale";
       setError(message);
     }
   };
@@ -132,8 +189,18 @@ export default function Home() {
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="fixed top-4 left-4 z-40 p-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] md:hidden"
       >
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
       </button>
 
@@ -198,8 +265,18 @@ export default function Home() {
               {error && (
                 <div className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm fade-in">
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                    <svg
+                      className="w-5 h-5 shrink-0 mt-0.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                      />
                     </svg>
                     <div>
                       <p className="font-medium">Generation Error</p>
@@ -209,8 +286,18 @@ export default function Home() {
                       onClick={() => setError(null)}
                       className="ml-auto shrink-0 p-1 hover:bg-red-500/10 rounded"
                     >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -231,10 +318,7 @@ export default function Home() {
                       <DesignCard
                         key={design.id}
                         design={design}
-                        onClick={(d) => {
-                          setSelectedDesign(d);
-                          setCurrentImageBase64(null);
-                        }}
+                        onClick={openDesign}
                       />
                     ))}
                   </div>
@@ -255,10 +339,7 @@ export default function Home() {
                     <DesignCard
                       key={design.id}
                       design={design}
-                      onClick={(d) => {
-                        setSelectedDesign(d);
-                        setCurrentImageBase64(null);
-                      }}
+                      onClick={openDesign}
                     />
                   ))}
                 </div>
@@ -274,10 +355,10 @@ export default function Home() {
       {selectedDesign && (
         <DesignModal
           design={selectedDesign}
-          imageBase64={currentImageBase64}
+          imageBase64={selectedImageBase64}
           onClose={() => {
             setSelectedDesign(null);
-            setCurrentImageBase64(null);
+            setSelectedImageBase64(null);
           }}
           onRemoveBackground={handleRemoveBackground}
           onUpscale={handleUpscale}

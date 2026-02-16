@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateImage } from "@/lib/stability";
-import { saveDesign } from "@/lib/storage";
-import { DesignCategory, GenerationModel, StylePreset } from "@/types";
+import { GenerationModel, StylePreset } from "@/types";
+
+export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,7 +10,6 @@ export async function POST(request: NextRequest) {
 
     const {
       prompt,
-      category,
       style,
       aspectRatio = "1:1",
       model = "core",
@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
       seed,
     } = body as {
       prompt: string;
-      category: DesignCategory;
       style?: StylePreset;
       aspectRatio?: string;
       model?: GenerationModel;
@@ -25,9 +24,9 @@ export async function POST(request: NextRequest) {
       seed?: number;
     };
 
-    if (!prompt || !category) {
+    if (!prompt) {
       return NextResponse.json(
-        { error: "Prompt and category are required" },
+        { error: "Prompt is required" },
         { status: 400 }
       );
     }
@@ -50,21 +49,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const id = `design-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-    const design = await saveDesign(result.imageBase64, {
-      id,
-      prompt,
-      category,
-      style,
-      model,
-      createdAt: new Date().toISOString(),
+    return NextResponse.json({
+      imageBase64: result.imageBase64,
       seed: result.seed,
-      hasTransparentBg: false,
-      isUpscaled: false,
     });
-
-    return NextResponse.json({ design, imageBase64: result.imageBase64 });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Generation failed";
     console.error("Generate error:", message);
