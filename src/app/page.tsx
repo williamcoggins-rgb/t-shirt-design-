@@ -9,11 +9,12 @@ import {
   AspectRatio,
 } from "@/types";
 import {
-  saveDesignToDB,
-  getAllDesigns,
+  saveDesign,
+  loadDesigns,
   getDesignImage,
-  updateDesignInDB,
-} from "@/lib/db";
+  updateDesign,
+  deleteDesign,
+} from "@/lib/storage";
 import Sidebar from "@/components/Sidebar";
 import PromptBar from "@/components/PromptBar";
 import DesignCard from "@/components/DesignCard";
@@ -37,10 +38,19 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Load designs from IndexedDB on mount
+  const [cloudEnabled, setCloudEnabled] = useState(false);
+
+  // Load designs from cloud + IndexedDB on mount
   useEffect(() => {
-    getAllDesigns()
-      .then(setDesigns)
+    loadDesigns()
+      .then((designs) => {
+        setDesigns(designs);
+        // Check if cloud is available for the status indicator
+        fetch("/api/designs")
+          .then((r) => r.json())
+          .then((d) => setCloudEnabled(d.cloudEnabled === true))
+          .catch(() => {});
+      })
       .catch(() => {});
   }, []);
 
@@ -91,7 +101,7 @@ export default function Home() {
           isUpscaled: false,
         };
 
-        await saveDesignToDB(design, data.imageBase64);
+        await saveDesign(design, data.imageBase64);
         setDesigns((prev) => [design, ...prev]);
         setSelectedDesign(design);
         setSelectedImageBase64(data.imageBase64);
@@ -121,7 +131,7 @@ export default function Home() {
       if (!res.ok) throw new Error(data.error);
 
       const newUrl = `data:image/png;base64,${data.imageBase64}`;
-      const updated = await updateDesignInDB(
+      const updated = await updateDesign(
         designId,
         {
           hasTransparentBg: true,
@@ -155,7 +165,7 @@ export default function Home() {
       if (!res.ok) throw new Error(data.error);
 
       const newUrl = `data:image/png;base64,${data.imageBase64}`;
-      const updated = await updateDesignInDB(
+      const updated = await updateDesign(
         designId,
         {
           isUpscaled: true,
@@ -175,6 +185,13 @@ export default function Home() {
         err instanceof Error ? err.message : "Failed to upscale";
       setError(message);
     }
+  };
+
+  const handleDelete = async (designId: string) => {
+    await deleteDesign(designId);
+    setDesigns((prev) => prev.filter((d) => d.id !== designId));
+    setSelectedDesign(null);
+    setSelectedImageBase64(null);
   };
 
   const filteredDesigns =
@@ -242,6 +259,17 @@ export default function Home() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {cloudEnabled ? (
+              <span className="text-xs text-green-400 bg-green-500/10 px-3 py-1.5 rounded-full border border-green-500/20 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                Cloud Sync On
+              </span>
+            ) : (
+              <span className="text-xs text-yellow-400 bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                Local Only
+              </span>
+            )}
             {designs.length > 0 && (
               <span className="text-xs text-[var(--text-muted)] bg-[var(--bg-secondary)] px-3 py-1.5 rounded-full border border-[var(--border)]">
                 {designs.length} total designs
@@ -362,6 +390,7 @@ export default function Home() {
           }}
           onRemoveBackground={handleRemoveBackground}
           onUpscale={handleUpscale}
+          onDelete={handleDelete}
         />
       )}
     </div>

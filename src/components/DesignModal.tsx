@@ -10,6 +10,7 @@ interface DesignModalProps {
   onClose: () => void;
   onRemoveBackground: (designId: string, imageBase64: string) => Promise<void>;
   onUpscale: (designId: string, imageBase64: string) => Promise<void>;
+  onDelete?: (designId: string) => Promise<void>;
 }
 
 export default function DesignModal({
@@ -18,8 +19,10 @@ export default function DesignModal({
   onClose,
   onRemoveBackground,
   onUpscale,
+  onDelete,
 }: DesignModalProps) {
   const [processing, setProcessing] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const preset = DESIGN_PRESETS.find((p) => p.category === design.category);
 
   const handleRemoveBg = async () => {
@@ -203,6 +206,33 @@ export default function DesignModal({
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 Download Full Resolution
+              </button>
+            )}
+
+            {onDelete && (
+              <button
+                onClick={() => {
+                  if (!confirmDelete) {
+                    setConfirmDelete(true);
+                    return;
+                  }
+                  setProcessing("delete");
+                  onDelete(design.id).finally(() => {
+                    setProcessing(null);
+                    onClose();
+                  });
+                }}
+                disabled={processing !== null}
+                className="w-full flex items-center justify-center gap-2 text-sm px-4 py-2.5 rounded-xl border border-red-500/20 text-red-400 hover:bg-red-500/10 transition-colors mt-2"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                {processing === "delete"
+                  ? "Deleting..."
+                  : confirmDelete
+                  ? "Click again to confirm delete"
+                  : "Delete Design"}
               </button>
             )}
           </div>
