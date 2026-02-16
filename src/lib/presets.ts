@@ -5,12 +5,11 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "Graphic Design",
     category: "graphic",
     description:
-      "Bold streetwear graphics — flat colors, strong outlines, limited palette, screen-print ready",
+      "Bold streetwear graphics — flat colors, strong outlines, screen-print ready",
     icon: "🎨",
-    promptPrefix:
-      "Bold streetwear graphic design, Japanese streetwear style, flat colors, bold black outlines, limited color palette, screen print style, high contrast, anime-inspired,",
+    promptPrefix: "t-shirt graphic,",
     promptSuffix:
-      ", isolated on solid black background, 4 color maximum, vector art, clean sharp edges, pop art influence, print-ready, 2D flat design, no shading, spot color illustration",
+      ", flat colors, bold black outlines, screen print style, white background, 3 color palette",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -18,12 +17,11 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "Custom Typography",
     category: "typography",
     description:
-      "Heavyweight custom lettering — bold hand-drawn type, ink textures, screen-print aesthetic",
+      "Heavyweight custom lettering — bold type, ink textures, screen-print aesthetic",
     icon: "✏️",
-    promptPrefix:
-      "Premium streetwear typography, bold hand-lettered custom type, screen print style, flat colors, high contrast,",
+    promptPrefix: "t-shirt typography,",
     promptSuffix:
-      ", isolated on solid black background, heavyweight bold letterforms, strong visual impact, limited color palette, 2D flat design, bold outlines, distressed ink texture, no thin fonts, no gradients, no shading",
+      ", bold lettering, flat black ink, screen print style, white background, hand-drawn quality",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
@@ -31,12 +29,11 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "Patches",
     category: "patch",
     description:
-      "Embroidered patch designs — chenille, chain-stitch, dense threadwork, bold shapes",
+      "Embroidered patch designs — chenille, chain-stitch, dense threadwork",
     icon: "🛡️",
-    promptPrefix:
-      "Embroidered patch design, premium chenille patch, streetwear,",
+    promptPrefix: "embroidered patch,",
     promptSuffix:
-      ", dense embroidery texture, satin stitch detail, merrowed border, isolated on black background, bold outlines, limited color palette, flat color fills, detailed threadwork",
+      ", chenille embroidery texture, merrowed border, white background, bold outlines, limited colors",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -44,12 +41,11 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "PVC / Rubber",
     category: "pvc",
     description:
-      "Molded PVC rubber labels — tactile, dimensional, bold simple shapes",
+      "Molded PVC rubber labels — tactile, dimensional, bold shapes",
     icon: "🔲",
-    promptPrefix:
-      "3D molded PVC rubber label design, streetwear hardware,",
+    promptPrefix: "PVC rubber label,",
     promptSuffix:
-      ", raised tactile surface, matte and gloss contrast, industrial molding, isolated on black background, bold simple shapes, limited color, clean geometric form",
+      ", molded rubber, raised surface, white background, bold simple shapes, limited color",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -57,12 +53,11 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     name: "All-Over Print",
     category: "all-over",
     description:
-      "Full-coverage patterns — camo, abstract motifs, flat graphic repeat prints",
+      "Full-coverage patterns — camo, abstract motifs, flat graphic repeats",
     icon: "🔁",
-    promptPrefix:
-      "Seamless repeating pattern for streetwear all-over print, bold flat graphic, screen print style,",
+    promptPrefix: "seamless repeating pattern,",
     promptSuffix:
-      ", tileable seamless pattern, flat colors, bold outlines, limited color palette of 4 colors, high contrast, 2D flat design, no gradients, no shading, spot color textile print",
+      ", tileable, flat colors, bold outlines, 4 color palette, screen print style",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
@@ -139,45 +134,41 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
     category: "Streetwear Icons",
     prompts: [
-      "Fierce ape head with sharp teeth, bold black outlines, flat color, BAPE-inspired mascot",
-      "Roaring tiger face, Japanese streetwear, 3 color screen print, anime-inspired",
-      "Samurai mask with drip effect, bold outlines, flat colors, Japanese ink style",
-      "Snarling bulldog mascot, pop art color treatment, bold flat graphic, 4 colors",
+      "fierce ape head with sharp teeth, BAPE style mascot",
+      "roaring tiger face, anime-inspired, bold ink",
+      "samurai mask with drip effect, Japanese ink brush",
+      "snarling bulldog mascot, pop art color",
     ],
   },
   {
     category: "Premium Graphics",
     prompts: [
-      "Anatomical heart wrapped in barbed wire, bold outlines, red and black, 2 color",
-      "Skull with melting drip, heavy black outlines, flat fills, monochrome",
-      "Koi fish circular composition, Japanese woodblock style, flat colors, bold lines",
-      "Eagle spread wings, vintage tattoo flash, bold outlines, limited palette",
+      "anatomical heart wrapped in barbed wire, red and black only",
+      "skull with melting drip, monochrome ink",
+      "koi fish circular composition, Japanese woodblock style",
+      "eagle with spread wings, vintage tattoo flash",
     ],
   },
   {
     category: "Bold Type",
     prompts: [
-      "Block letters NO DAYS OFF, distressed ink texture, bold heavyweight, flat black",
-      "Gothic blackletter LIMITLESS, bold hand-drawn, flat black ink, screen print",
-      "Stacked compressed TRUST THE PROCESS, brutalist bold weight, 2 color",
-      "Brush lettering STAY HUNGRY, dripping ink, hand-painted, flat black and red",
+      "block letters NO DAYS OFF, distressed ink texture",
+      "gothic blackletter LIMITLESS, heavy black ink",
+      "stacked compressed TRUST THE PROCESS, brutalist weight",
+      "brush lettering STAY HUNGRY, dripping ink",
     ],
   },
   {
     category: "Patterns & Camo",
     prompts: [
-      "Custom camo pattern with hidden ape faces, BAPE-inspired, 4 flat colors",
-      "Geometric interlocking shapes, monochrome, bold outlines, seamless repeat",
-      "Paisley bandana pattern with skulls, bold outlines, flat fills, 3 colors",
-      "Lightning bolt repeat pattern, two-tone flat color, screen print style",
+      "custom camo pattern with hidden ape faces, BAPE-inspired",
+      "geometric interlocking shapes, monochrome, bold outlines",
+      "paisley bandana pattern with skulls, flat fills",
+      "lightning bolt repeat, two-tone flat color",
     ],
   },
 ];
 
-/**
- * Focused negative prompt — 10-12 targeted terms.
- * Research shows over-constraining leads to generic output.
- * Only block the specific failure modes we actually see.
- */
+/** Focused negative prompt — block the specific failures we see */
 export const DEFAULT_NEGATIVE_PROMPT =
-  "photorealistic, 3d render, gradient, shadow, shading, transparency, blurry, low quality, watermark, jpeg artifacts, noisy, complex background";
+  "photorealistic, photograph, 3d render, gradient, shadow, shading, blurry, low quality, watermark, busy background";

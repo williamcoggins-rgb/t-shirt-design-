@@ -33,9 +33,7 @@ export async function POST(request: NextRequest) {
 
     const result = await generateImage({
       prompt,
-      negativePrompt:
-        negativePrompt ||
-        "blurry, low quality, watermark, text overlay, distorted, deformed, ugly, bad anatomy",
+      negativePrompt: negativePrompt || undefined,
       aspectRatio,
       model,
       style,
