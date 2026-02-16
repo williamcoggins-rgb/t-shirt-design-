@@ -29,7 +29,7 @@ export default function PromptBar({
     selectedCategory === "all" ? "graphic" : selectedCategory
   );
   const [model, setModel] = useState<GenerationModel>("ultra");
-  const [style, setStyle] = useState<StylePreset>("photographic");
+  const [style, setStyle] = useState<StylePreset>("line-art");
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("1:1");
   const [negativePrompt, setNegativePrompt] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
