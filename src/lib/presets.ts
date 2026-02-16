@@ -7,9 +7,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Bold streetwear graphics — flat colors, strong outlines, screen-print ready",
     icon: "🎨",
-    promptPrefix: "t-shirt graphic,",
+    promptPrefix: "sticker design, vector graphic for t-shirt,",
     promptSuffix:
-      ", flat colors, bold black outlines, screen print style, white background, 3 color palette",
+      ", flat colors, bold black outlines, no background, isolated subject, 3 color palette, screen print style",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -19,9 +19,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Heavyweight custom lettering — bold type, ink textures, screen-print aesthetic",
     icon: "✏️",
-    promptPrefix: "t-shirt typography,",
+    promptPrefix: "sticker design, vector typography for t-shirt,",
     promptSuffix:
-      ", bold lettering, flat black ink, screen print style, white background, hand-drawn quality",
+      ", bold lettering, flat black ink, no background, isolated text, screen print style, hand-drawn quality",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
@@ -31,9 +31,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Embroidered patch designs — chenille, chain-stitch, dense threadwork",
     icon: "🛡️",
-    promptPrefix: "embroidered patch,",
+    promptPrefix: "embroidered patch design,",
     promptSuffix:
-      ", chenille embroidery texture, merrowed border, white background, bold outlines, limited colors",
+      ", chenille embroidery texture, merrowed border, no background, isolated patch, bold outlines, limited colors",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -43,9 +43,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Molded PVC rubber labels — tactile, dimensional, bold shapes",
     icon: "🔲",
-    promptPrefix: "PVC rubber label,",
+    promptPrefix: "PVC rubber label design,",
     promptSuffix:
-      ", molded rubber, raised surface, white background, bold simple shapes, limited color",
+      ", molded rubber, raised surface, no background, isolated label, bold simple shapes, limited color",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -171,4 +171,4 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
 
 /** Focused negative prompt — block the specific failures we see */
 export const DEFAULT_NEGATIVE_PROMPT =
-  "photorealistic, photograph, 3d render, gradient, shadow, shading, blurry, low quality, watermark, busy background";
+  "photorealistic, photograph, 3d render, gradient, shadow, shading, blurry, low quality, watermark, colored background, detailed background, scenery";
