@@ -29,6 +29,14 @@ import { DesignPreset, StylePreset } from "@/types";
  *
  * The prefixes describe MEDIUM and CHARACTER FORMAT — not style or genre.
  * The user's prompt supplies the creative direction, subject, and mood.
+ *
+ * ANTI-DRIFT (Ultra model constraint):
+ * Ultra does NOT support negative_prompt. All anti-drift language must live
+ * inside the positive prompt. We embed it at the end of each suffix as
+ * explicit exclusions: "not a photograph, not 3d render, not realistic."
+ * Diffusion models treat these as soft-negative guidance — less powerful
+ * than a real negative_prompt, but enough to anchor the style when combined
+ * with strong positive style keywords.
  */
 
 export const DESIGN_PRESETS: DesignPreset[] = [
@@ -39,9 +47,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Bold graphics — characters, mascots, icons, creative concepts",
     icon: "🎨",
     promptPrefix:
-      "cartoon character illustration for screen-printed t-shirt, anthropomorphic full body character with expressive face and bold personality,",
+      "2D cartoon character illustration for screen-printed t-shirt, anthropomorphic full body character with expressive face and bold personality,",
     promptSuffix:
-      ", thick black ink outlines, flat color fills with hard cel-shaded shadows, exaggerated cartoon proportions, full body with arms and legs visible, bold simplified shapes, limited color palette, no gradients, isolated on transparent background, high contrast, print-ready",
+      ", thick black ink outlines, flat color fills with hard cel-shaded shadows, exaggerated cartoon proportions, full body with arms and legs visible, bold simplified shapes, limited color palette, solid flat colors only, no gradients, no shading gradients, isolated on plain white background, high contrast, print-ready vector art style, not a photograph, not photorealistic, not 3d render, no detailed background, no scenery",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -52,9 +60,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Heavyweight custom lettering — bold type, ink textures, statement wordmarks",
     icon: "✏️",
     promptPrefix:
-      "hand-lettered custom typography for screen-printed t-shirt,",
+      "hand-lettered custom typography for screen-printed t-shirt, 2D ink illustration,",
     promptSuffix:
-      ", heavyweight bold letterforms with varied stroke weight, ink texture and rough edges showing the hand of the artist, flat spot color fills with no gradients, strong black outlines, isolated on transparent background, high contrast, print-ready",
+      ", heavyweight bold letterforms with varied stroke weight, ink texture and rough edges showing the hand of the artist, flat spot color fills with no gradients, no shading gradients, strong black outlines, isolated on plain white background, high contrast, print-ready vector art style, not a photograph, not photorealistic, not 3d render, no detailed background, no scenery",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
@@ -64,9 +72,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Embroidered patch designs — chenille, chain-stitch, dense threadwork",
     icon: "🛡️",
-    promptPrefix: "embroidered chenille patch design,",
+    promptPrefix: "embroidered chenille patch design, product photograph of a single patch,",
     promptSuffix:
-      ", dense thread texture with visible stitch direction following the form, merrowed border edge, bold simplified shapes, limited color palette of 3-4 thread colors, isolated on transparent background",
+      ", dense thread texture with visible stitch direction following the form, merrowed border edge, bold simplified shapes, limited color palette of 3-4 thread colors, isolated on plain white background, single centered object, no scenery, no background clutter, no person wearing it",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -76,9 +84,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Molded PVC rubber labels — tactile, dimensional, bold shapes",
     icon: "🔲",
-    promptPrefix: "molded PVC rubber label design,",
+    promptPrefix: "molded PVC rubber label design, product photograph of a single label,",
     promptSuffix:
-      ", raised tactile surface with matte and gloss contrast, debossed detail lines, bold simple shapes, limited to 2-3 colors, isolated on transparent background",
+      ", raised tactile surface with matte and gloss contrast, debossed detail lines, bold simple shapes, limited to 2-3 colors, isolated on plain white background, single centered object, no scenery, no background clutter, no person wearing it",
     recommendedStyle: "3d-model",
     recommendedModel: "ultra",
   },
@@ -88,9 +96,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     description:
       "Full-coverage patterns — camo, abstract motifs, flat graphic repeats",
     icon: "🔁",
-    promptPrefix: "seamless repeating textile pattern for screen-printed fabric,",
+    promptPrefix: "seamless repeating textile pattern for screen-printed fabric, 2D flat pattern design,",
     promptSuffix:
-      ", tileable with no visible seams, flat spot colors with bold outlines, limited palette of 3-5 colors, no gradients, high contrast, print-ready",
+      ", tileable with no visible seams, flat spot colors with bold outlines, limited palette of 3-5 colors, solid flat colors only, no gradients, no shading gradients, high contrast, print-ready, not a photograph, not photorealistic, not 3d render, no background scene",
     recommendedStyle: "line-art",
     recommendedModel: "ultra",
   },
