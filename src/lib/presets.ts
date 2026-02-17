@@ -60,9 +60,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Comic book illustration — bold ink work, dramatic spot blacks, dynamic poses, Quesada/Lee/Miller style",
     icon: "💥",
     promptPrefix:
-      "professional comic book illustration for screen-printed t-shirt, bold confident ink line work with thick-to-thin variation, dramatic spot blacks,",
+      "comic book ink illustration, bold ink on paper,",
     promptSuffix:
-      ", heavy black ink shadows with feathered edges, high-contrast chiaroscuro lighting, heroic anatomy with exaggerated proportions, dynamic foreshortening, strong silhouette-readable design, cross-hatching on shadow areas, rim lighting separating figure from background, bold confident brushstrokes, vivid saturated color with deep blacks, isolated on plain white background, professional comic book art style, not a photograph, not photorealistic, not 3d render, no detailed background, no scenery",
+      ", dramatic spot blacks, confident thick-to-thin ink lines, high contrast, vivid color, isolated on plain white background, professional comic book cover art, not a photograph, not 3d render, no background scene",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -197,10 +197,10 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
     category: "Comic Art",
     prompts: [
-      "masked vigilante perched on gargoyle ledge, cape billowing behind, dramatic low angle worm's eye view, city skyline silhouette, heavy spot blacks with rim lighting, noir atmosphere",
-      "armored warrior mid-swing with massive battle axe, extreme foreshortening with fist toward viewer, cross-hatched shadow on muscles, speed lines radiating from impact point, dynamic tension",
-      "hooded anti-hero standing in rain-slicked alley, trench coat dripping, single streetlight casting long dramatic shadows, feathered ink shading, chiaroscuro noir lighting, gritty urban mood",
-      "cosmic entity emerging from portal of crackling energy, flowing cape with Art Nouveau curves, bold spot blacks against energy burst, heroic proportions, Kirby Krackle cosmic dots around hands",
+      "masked vigilante perched on a gargoyle ledge, cape billowing, dramatic low angle, city skyline silhouette behind, noir atmosphere",
+      "armored warrior mid-swing with massive battle axe, fist flying toward viewer, speed lines radiating from impact, muscles tensed",
+      "hooded anti-hero standing in rain-slicked alley, trench coat dripping, single streetlight casting long shadows, gritty urban mood",
+      "cosmic entity emerging from crackling energy portal, flowing cape, heroic proportions, energy crackling around outstretched hands",
     ],
   },
   {
