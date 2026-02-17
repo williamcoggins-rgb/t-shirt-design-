@@ -80,7 +80,13 @@ export default function Home() {
           body: JSON.stringify(params),
         });
 
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error(`Server error: ${text.slice(0, 200)}`);
+        }
 
         if (!res.ok) {
           throw new Error(data.error || "Generation failed");

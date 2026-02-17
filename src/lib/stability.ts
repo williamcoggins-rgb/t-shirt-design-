@@ -75,14 +75,29 @@ export async function generateImage(params: {
     body: formData,
   });
 
+  const responseText = await response.text();
+
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    let errorDetail = responseText.slice(0, 500);
+    try {
+      errorDetail = JSON.stringify(JSON.parse(responseText));
+    } catch {
+      // Response was not JSON — use raw text
+    }
     throw new Error(
-      `Stability AI error (${response.status}): ${JSON.stringify(errorData)}`
+      `Stability AI error (${response.status}): ${errorDetail}`
     );
   }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = JSON.parse(responseText);
+  } catch {
+    throw new Error(
+      `Stability AI returned invalid JSON: ${responseText.slice(0, 200)}`
+    );
+  }
+
   return {
     imageBase64: data.image,
     seed: data.seed || 0,
