@@ -60,9 +60,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Comic book illustration — bold ink work, dramatic spot blacks, dynamic poses, Quesada/Lee/Miller style",
     icon: "💥",
     promptPrefix:
-      "comic book ink illustration, black India ink line art,",
+      "comic book cover art,",
     promptSuffix:
-      ", dramatic spot blacks, confident thick-to-thin ink lines, hard-edged shadows, high contrast, vivid flat color, isolated on plain white background, professional comic book cover art, not a photograph, not 3d render, not watercolor, not airbrushed, not soft shading, no gradient washes, no background scene",
+      ", strong readable silhouette, dramatic spot blacks, hard-edged shadows, high contrast, black India ink, confident thick-to-thin line weight, vivid flat color, isolated on plain white background, not a photograph, not 3d render, not watercolor, not airbrushed, not soft shading, no gradient washes, no background scene",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
