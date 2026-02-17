@@ -54,6 +54,19 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     recommendedModel: "ultra",
   },
   {
+    name: "Comic Art",
+    category: "comics",
+    description:
+      "Comic book illustration — bold ink work, dramatic spot blacks, dynamic poses, Quesada/Lee/Miller style",
+    icon: "💥",
+    promptPrefix:
+      "professional comic book illustration for screen-printed t-shirt, bold confident ink line work with thick-to-thin variation, dramatic spot blacks,",
+    promptSuffix:
+      ", heavy black ink shadows with feathered edges, high-contrast chiaroscuro lighting, heroic anatomy with exaggerated proportions, dynamic foreshortening, strong silhouette-readable design, cross-hatching on shadow areas, rim lighting separating figure from background, bold confident brushstrokes, vivid saturated color with deep blacks, isolated on plain white background, professional comic book art style, not a photograph, not photorealistic, not 3d render, no detailed background, no scenery",
+    recommendedStyle: "comic-book",
+    recommendedModel: "ultra",
+  },
+  {
     name: "Custom Typography",
     category: "typography",
     description:
@@ -179,6 +192,15 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
       "ice cream cone character melting with attitude, round swirled soft-serve head dripping on one side, small stubby body in a tracksuit and sneakers, cocky lean-back pose with crossed arms, smirking face with gold grill",
       "ghost samurai warrior, tall angular figure with cracked armor plates floating apart, wispy smoke body visible beneath, glowing hollow eyes under battered helmet, one skeletal hand reaching forward, ink smoke swirling",
       "mushroom wizard, enormous round spotted cap head on a tiny stump body, long wispy beard flowing to one side, crooked staff taller than himself, one eye squinting with knowing grin, small critters peeking from behind",
+    ],
+  },
+  {
+    category: "Comic Art",
+    prompts: [
+      "masked vigilante perched on gargoyle ledge, cape billowing behind, dramatic low angle worm's eye view, city skyline silhouette, heavy spot blacks with rim lighting, noir atmosphere",
+      "armored warrior mid-swing with massive battle axe, extreme foreshortening with fist toward viewer, cross-hatched shadow on muscles, speed lines radiating from impact point, dynamic tension",
+      "hooded anti-hero standing in rain-slicked alley, trench coat dripping, single streetlight casting long dramatic shadows, feathered ink shading, chiaroscuro noir lighting, gritty urban mood",
+      "cosmic entity emerging from portal of crackling energy, flowing cape with Art Nouveau curves, bold spot blacks against energy burst, heroic proportions, Kirby Krackle cosmic dots around hands",
     ],
   },
   {

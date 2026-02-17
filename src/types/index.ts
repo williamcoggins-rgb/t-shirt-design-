@@ -1,5 +1,6 @@
 export type DesignCategory =
   | "graphic"
+  | "comics"
   | "typography"
   | "patch"
   | "pvc"
