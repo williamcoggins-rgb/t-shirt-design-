@@ -1,7 +1,21 @@
 import { DesignPreset, StylePreset } from "@/types";
 
 /**
- * Prompt engineering informed by illustration fundamentals:
+ * Prompt engineering informed by illustration + cartoon fundamentals:
+ *
+ * CHARACTER DESIGN (shape language, silhouette, appeal):
+ * Shape language encodes personality — circles = friendly, squares = strong,
+ * triangles = dangerous. Primary shape dominates the character's read.
+ * Silhouette test: must be recognizable filled solid black.
+ * Exaggerated proportions (big head/small body, oversized hands) = cartoon appeal.
+ * "Appeal" = charisma, not cuteness — villains and monsters need appeal too.
+ *
+ * POSING (line of action, asymmetry, weight):
+ * Line of action drawn first — a single sweeping C or S curve the whole
+ * body follows. Asymmetric poses only — never twin the arms/legs.
+ * Straights against curves on opposing contours of every form.
+ * Squash or stretch state — never neutral. Push exaggeration beyond what
+ * feels natural. Off-balance center of gravity implies motion.
  *
  * LINE ART: Varied line weight hierarchy — thick outer contours (silhouette),
  * medium form-separation lines (overlapping parts), thin interior detail.
@@ -29,9 +43,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Bold graphics — characters, mascots, icons, creative concepts",
     icon: "🎨",
     promptPrefix:
-      "hand-inked illustration for screen-printed t-shirt, creative and expressive with strong personality,",
+      "hand-inked illustration for screen-printed t-shirt, bold dynamic design with strong silhouette and personality,",
     promptSuffix:
-      ", varied line weight with thick bold outer contours and thin interior detail lines, cel-shaded flat color zones with hard shadow edges, strategic solid black shadow areas for drama, limited color palette, no gradients, confident ink strokes with thick-to-thin taper, isolated on transparent background, high contrast, print-ready",
+      ", dynamic asymmetric pose with strong line of action, exaggerated proportions, bold readable silhouette shape, varied line weight with thick outer contours and thin interior detail, cel-shaded flat color with hard shadow edges, spotted blacks for drama, straights against curves in the contours, limited palette, no gradients, isolated on transparent background, high contrast, print-ready",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -157,10 +171,10 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
     category: "Characters",
     prompts: [
-      "menacing gorilla boss in a fur coat and gold chains, cigar smoke curling, heavy-lidded glare, exaggerated broad shoulders",
-      "ice cream cone headed character in a tracksuit, gold grill smile, melting under pressure but keeping cool, drips of color",
-      "ancient samurai ghost in cracked armor, ethereal wisps of smoke, hollow glowing eyes, ink wash style",
-      "happy mushroom wizard with a long beard and a crooked staff, forest creatures gathering around, whimsical storybook feel",
+      "menacing gorilla kingpin, massive square-shaped torso tapering to small feet, leaning forward with weight on front knuckles, heavy-lidded glare with one eyebrow cocked, fur coat draped over boulder shoulders, gold chains swinging, cigar smoke curling",
+      "ice cream cone character melting with attitude, oversized round soft-serve head dripping onto a small puffed-up body, confident lean-back pose with arms crossed, sly half-smile, puddle forming at feet",
+      "ancient samurai ghost, sharp triangular silhouette, cracked armor plates floating apart revealing smoky void beneath, hollow glowing eyes under a battered helmet, one spectral hand reaching forward, ink wash energy swirling",
+      "jolly mushroom wizard, enormous round cap head on a tiny stump body, long wispy beard flowing to one side, crooked staff taller than himself, one eye squinting with a knowing grin, small forest critters peeking from behind",
     ],
   },
   {
@@ -200,6 +214,7 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
  * - photorealistic/photograph: pulls away from illustrated graphic style
  * - background/scenery: we need isolated graphics on transparent background
  * - blending/blurred: enemies of the crisp line art and flat color we need
+ * - symmetrical/stiff/static: kills dynamic posing and appeal
  */
 export const DEFAULT_NEGATIVE_PROMPT =
-  "photorealistic, photograph, 3d render, gradient, smooth shading, airbrush, soft shadows, blending, blurry, low quality, watermark, colored background, detailed background, scenery, landscape, sticker, sticker border, white border, white outline, cutout border, drop shadow";
+  "photorealistic, photograph, 3d render, gradient, smooth shading, airbrush, soft shadows, blending, blurry, low quality, watermark, colored background, detailed background, scenery, landscape, sticker, sticker border, white border, white outline, cutout border, drop shadow, symmetrical pose, stiff, static, flat boring composition";
