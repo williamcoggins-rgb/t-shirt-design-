@@ -62,7 +62,7 @@ export const DESIGN_PRESETS: DesignPreset[] = [
     promptPrefix:
       "comic book cover art,",
     promptSuffix:
-      ", strong readable silhouette, dramatic spot blacks, hard-edged shadows, high contrast, black India ink, confident thick-to-thin line weight, vivid flat color, isolated on plain white background, not a photograph, not 3d render, not watercolor, not airbrushed, not soft shading, no gradient washes, no background scene",
+      ", isolated on plain white background, not a photograph, not 3d render",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
