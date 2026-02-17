@@ -1,37 +1,33 @@
 import { DesignPreset, StylePreset } from "@/types";
 
 /**
- * Prompt engineering informed by illustration + cartoon fundamentals:
+ * Prompt engineering — translating cartoon fundamentals for AI models:
  *
- * CHARACTER DESIGN (shape language, silhouette, appeal):
- * Shape language encodes personality — circles = friendly, squares = strong,
- * triangles = dangerous. Primary shape dominates the character's read.
- * Silhouette test: must be recognizable filled solid black.
- * Exaggerated proportions (big head/small body, oversized hands) = cartoon appeal.
- * "Appeal" = charisma, not cuteness — villains and monsters need appeal too.
+ * CORE INSIGHT: Diffusion models don't understand art-school process terms
+ * like "line of action" or "straights against curves." Those are instructions
+ * for human artists. We must translate cartoon principles into CONCRETE
+ * VISUAL DESCRIPTIONS the AI can actually render:
  *
- * POSING (line of action, asymmetry, weight):
- * Line of action drawn first — a single sweeping C or S curve the whole
- * body follows. Asymmetric poses only — never twin the arms/legs.
- * Straights against curves on opposing contours of every form.
- * Squash or stretch state — never neutral. Push exaggeration beyond what
- * feels natural. Off-balance center of gravity implies motion.
+ * CHARACTER DESIGN (translated for AI):
+ * - Shape language → describe actual shapes ("round head," "angular body")
+ * - Silhouette readability → "bold simple shapes," "thick black outlines"
+ * - Exaggerated proportions → "oversized head," "small body," "big eyes"
+ * - Appeal / personality → "expressive face," "attitude," specific pose
+ * - Dynamic posing → describe the pose ("leaning forward," "arms crossed")
  *
- * LINE ART: Varied line weight hierarchy — thick outer contours (silhouette),
- * medium form-separation lines (overlapping parts), thin interior detail.
- * Confident single-stroke ink lines with intentional thick-to-thin taper.
+ * CRITICAL KEYWORD: "anthropomorphic" — tells the AI to give human traits
+ * (arms, legs, face, body language) to non-human subjects. Without it,
+ * "ice cream wearing sneakers" = literal cone with shoes placed next to it.
+ * With it, the AI creates a character with a body.
  *
- * SHADING: Cel-shaded flat color zones with hard shadow edges (no gradients).
- * 2-shadow approach: base color + shadow 1 (turned away from light) +
- * shadow 2 (deepest recesses). Strategic solid black shadow areas for drama.
+ * RENDERING STYLE (what the AI responds to):
+ * - "thick black ink outlines" — the AI knows this look
+ * - "flat color fills" + "cel-shaded shadows" — hard-edge flat shading
+ * - "no gradients" — prevents halftone dot gain in screen printing
+ * - "limited color palette" — screen print constraint (1-6 colors)
+ * - "isolated on transparent background" — no background clutter
  *
- * SCREEN PRINT CONSTRAINTS: 1pt minimum line weight (2pt+ safe). Flat spot
- * colors only — no gradients (halftone dot gain ruins them on fabric).
- * Bold black outlines serve as trapping zones to hide registration error
- * between color screens. Limited palette (1-6 colors). Cross-hatching and
- * stippling print as solid line art — superior to halftone shading.
- *
- * The prefixes describe MEDIUM and TECHNIQUE only — not style or genre.
+ * The prefixes describe MEDIUM and CHARACTER FORMAT — not style or genre.
  * The user's prompt supplies the creative direction, subject, and mood.
  */
 
@@ -43,9 +39,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Bold graphics — characters, mascots, icons, creative concepts",
     icon: "🎨",
     promptPrefix:
-      "hand-inked illustration for screen-printed t-shirt, bold dynamic design with strong silhouette and personality,",
+      "cartoon character illustration for screen-printed t-shirt, anthropomorphic full body character with expressive face and bold personality,",
     promptSuffix:
-      ", dynamic asymmetric pose with strong line of action, exaggerated proportions, bold readable silhouette shape, varied line weight with thick outer contours and thin interior detail, cel-shaded flat color with hard shadow edges, spotted blacks for drama, straights against curves in the contours, limited palette, no gradients, isolated on transparent background, high contrast, print-ready",
+      ", thick black ink outlines, flat color fills with hard cel-shaded shadows, exaggerated cartoon proportions, full body with arms and legs visible, bold simplified shapes, limited color palette, no gradients, isolated on transparent background, high contrast, print-ready",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
@@ -171,10 +167,10 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
   {
     category: "Characters",
     prompts: [
-      "menacing gorilla kingpin, massive square-shaped torso tapering to small feet, leaning forward with weight on front knuckles, heavy-lidded glare with one eyebrow cocked, fur coat draped over boulder shoulders, gold chains swinging, cigar smoke curling",
-      "ice cream cone character melting with attitude, oversized round soft-serve head dripping onto a small puffed-up body, confident lean-back pose with arms crossed, sly half-smile, puddle forming at feet",
-      "ancient samurai ghost, sharp triangular silhouette, cracked armor plates floating apart revealing smoky void beneath, hollow glowing eyes under a battered helmet, one spectral hand reaching forward, ink wash energy swirling",
-      "jolly mushroom wizard, enormous round cap head on a tiny stump body, long wispy beard flowing to one side, crooked staff taller than himself, one eye squinting with a knowing grin, small forest critters peeking from behind",
+      "gorilla kingpin, massive broad square body with tiny legs, hunched forward leaning on one fist, fur coat over boulder shoulders, gold chains, heavy-lidded menacing eyes with one eyebrow raised, cigar with curling smoke",
+      "ice cream cone character melting with attitude, round swirled soft-serve head dripping on one side, small stubby body in a tracksuit and sneakers, cocky lean-back pose with crossed arms, smirking face with gold grill",
+      "ghost samurai warrior, tall angular figure with cracked armor plates floating apart, wispy smoke body visible beneath, glowing hollow eyes under battered helmet, one skeletal hand reaching forward, ink smoke swirling",
+      "mushroom wizard, enormous round spotted cap head on a tiny stump body, long wispy beard flowing to one side, crooked staff taller than himself, one eye squinting with knowing grin, small critters peeking from behind",
     ],
   },
   {
@@ -207,14 +203,13 @@ export const QUICK_PROMPTS: { category: string; prompts: string[] }[] = [
 ];
 
 /**
- * Negative prompt blocks failure modes identified through research:
- * - gradient/smooth shading: causes halftone dot gain problems in screen print
- * - airbrush/soft shadows: opposite of the hard-edged cel-shaded look we want
- * - sticker/border: AI tends to render "sticker" look with white cutout borders
- * - photorealistic/photograph: pulls away from illustrated graphic style
- * - background/scenery: we need isolated graphics on transparent background
- * - blending/blurred: enemies of the crisp line art and flat color we need
- * - symmetrical/stiff/static: kills dynamic posing and appeal
+ * Negative prompt blocks failure modes identified through testing:
+ * - photorealistic/photograph: pulls away from cartoon character style
+ * - gradient/smooth/airbrush: causes halftone dot gain in screen print
+ * - sticker/border: AI renders "sticker" look with white cutout borders
+ * - background/scenery: we need isolated graphics, no environment
+ * - realistic proportions: fights the exaggerated cartoon look we want
+ * - clip art: prevents flat, lifeless, generic output
  */
 export const DEFAULT_NEGATIVE_PROMPT =
-  "photorealistic, photograph, 3d render, gradient, smooth shading, airbrush, soft shadows, blending, blurry, low quality, watermark, colored background, detailed background, scenery, landscape, sticker, sticker border, white border, white outline, cutout border, drop shadow, symmetrical pose, stiff, static, flat boring composition";
+  "photorealistic, photograph, 3d render, realistic proportions, realistic style, gradient, smooth shading, airbrush, soft shadows, blending, blurry, low quality, watermark, colored background, detailed background, scenery, landscape, sticker, sticker border, white border, white outline, cutout border, drop shadow, clip art, generic";
