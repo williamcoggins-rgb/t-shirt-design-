@@ -60,9 +60,9 @@ export const DESIGN_PRESETS: DesignPreset[] = [
       "Comic book illustration — bold ink work, dramatic spot blacks, dynamic poses, Quesada/Lee/Miller style",
     icon: "💥",
     promptPrefix:
-      "comic book cover art,",
+      "comic book illustration, bold ink and vibrant color,",
     promptSuffix:
-      ", isolated on plain white background, not a photograph, not 3d render",
+      ", highly detailed, isolated on plain white background, not a photograph, not 3d render",
     recommendedStyle: "comic-book",
     recommendedModel: "ultra",
   },
