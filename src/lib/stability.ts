@@ -44,7 +44,8 @@ export async function generateImage(params: {
     formData.append("aspect_ratio", params.aspectRatio);
   }
 
-  if (params.negativePrompt) {
+  // negative_prompt is supported by Core and SD3 models, but NOT Ultra
+  if (params.negativePrompt && params.model !== "ultra") {
     formData.append("negative_prompt", params.negativePrompt);
   }
 
